@@ -6,9 +6,14 @@
 // 路由路径常量（仅静态路径字符串）
 export const ROUTES = {
   HOME: '/',
+  LOGIN: '/login',
   PROMPTS: '/prompts',
   PROMPT_CREATE: '/prompts/new',
   CATEGORIES: '/categories',
+  ADMIN_RBAC: '/admin/rbac',
+  RBAC_PERMISSIONS: '/admin/rbac/permissions',
+  RBAC_ROLES: '/admin/rbac/roles',
+  RBAC_USERS: '/admin/rbac/users',
   NOT_FOUND: '*',
 } as const
 
