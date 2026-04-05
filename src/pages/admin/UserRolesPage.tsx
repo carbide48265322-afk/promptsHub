@@ -4,6 +4,7 @@ import type { RBACUser } from '@/types/rbac'
 import { useRBACStore } from '@/stores/useRBACStore'
 import { Button } from '@/components/ui/button'
 import { UserRoleDialog } from '@/components/rbac/UserRoleDialog'
+import { PermissionGate } from '@/components/common/PermissionGate'
 
 export function UserRolesPage() {
   const { users, roles, loadUsers, loadRoles, updateUserRoles } = useRBACStore()
@@ -75,13 +76,15 @@ export function UserRolesPage() {
                     </div>
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleEdit(user)}
-                    >
-                      编辑角色
-                    </Button>
+                    <PermissionGate code="rbac:user:edit">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleEdit(user)}
+                      >
+                        编辑角色
+                      </Button>
+                    </PermissionGate>
                   </td>
                 </tr>
               ))}

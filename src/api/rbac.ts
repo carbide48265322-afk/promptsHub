@@ -1,6 +1,6 @@
 import type { Permission, Role, RBACUser } from '@/types/rbac'
 
-export const BUILTIN_ROLE_IDS = ['role-admin'] as const
+export const BUILTIN_ROLE_IDS: readonly string[] = ['role-admin'] as const
 
 // Initial Mock Permissions
 export const initialPermissions: Permission[] = [
@@ -10,6 +10,14 @@ export const initialPermissions: Permission[] = [
   { id: 'perm-4', code: 'prompt:delete', name: '删除 Prompt' },
   { id: 'perm-5', code: 'category:manage', name: '管理分类' },
   { id: 'perm-6', code: 'rbac:manage', name: '管理权限' },
+  // RBAC specific permissions for UI button guards
+  { id: 'perm-7', code: 'rbac:perm:create', name: '创建权限' },
+  { id: 'perm-8', code: 'rbac:perm:edit', name: '编辑权限' },
+  { id: 'perm-9', code: 'rbac:perm:delete', name: '删除权限' },
+  { id: 'perm-10', code: 'rbac:role:create', name: '创建角色' },
+  { id: 'perm-11', code: 'rbac:role:edit', name: '编辑角色' },
+  { id: 'perm-12', code: 'rbac:role:delete', name: '删除角色' },
+  { id: 'perm-13', code: 'rbac:user:edit', name: '编辑用户角色' },
 ]
 
 // Initial Mock Roles
@@ -104,7 +112,7 @@ export async function saveRole(role: Role): Promise<Role> {
 }
 
 export async function deleteRole(id: string): Promise<void> {
-  if (BUILTIN_ROLE_IDS.includes(id as (typeof BUILTIN_ROLE_IDS)[number])) {
+  if (BUILTIN_ROLE_IDS.includes(id)) {
     throw new Error('内置角色不可删除')
   }
   // 删除守卫: 检查是否有用户正在引用此角色

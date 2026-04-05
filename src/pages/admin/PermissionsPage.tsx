@@ -4,6 +4,7 @@ import type { Permission } from '@/types/rbac'
 import { useRBACStore } from '@/stores/useRBACStore'
 import { Button } from '@/components/ui/button'
 import { PermissionFormDialog } from '@/components/rbac/PermissionFormDialog'
+import { PermissionGate } from '@/components/common/PermissionGate'
 
 export function PermissionsPage() {
   const { permissions, addPermission, updatePermission, deletePermission } = useRBACStore()
@@ -57,7 +58,9 @@ export function PermissionsPage() {
     <div>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-bold">权限列表</h2>
-        <Button onClick={handleAdd}>新增权限</Button>
+        <PermissionGate code="rbac:perm:create">
+          <Button onClick={handleAdd}>新增权限</Button>
+        </PermissionGate>
       </div>
 
       {permissions.length === 0 ? (
@@ -81,20 +84,24 @@ export function PermissionsPage() {
                   <td className="px-4 py-3">{permission.name}</td>
                   <td className="px-4 py-3 text-right">
                     <div className="flex justify-end gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleEdit(permission)}
-                      >
-                        编辑
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => handleDelete(permission.id)}
-                      >
-                        删除
-                      </Button>
+                      <PermissionGate code="rbac:perm:edit">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleEdit(permission)}
+                        >
+                          编辑
+                        </Button>
+                      </PermissionGate>
+                      <PermissionGate code="rbac:perm:delete">
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => handleDelete(permission.id)}
+                        >
+                          删除
+                        </Button>
+                      </PermissionGate>
                     </div>
                   </td>
                 </tr>

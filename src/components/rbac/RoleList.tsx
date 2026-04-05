@@ -1,6 +1,7 @@
 import type { Role } from '@/types/rbac'
 import { BUILTIN_ROLE_IDS } from '@/api/rbac'
 import { Button } from '@/components/ui/button'
+import { PermissionGate } from '@/components/common/PermissionGate'
 
 interface RoleListProps {
   roles: Role[]
@@ -14,7 +15,9 @@ export function RoleList({ roles, onEdit, onDelete, onAdd }: RoleListProps) {
     <div>
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-bold">角色列表</h2>
-        <Button onClick={onAdd}>新增角色</Button>
+        <PermissionGate code="rbac:role:create">
+          <Button onClick={onAdd}>新增角色</Button>
+        </PermissionGate>
       </div>
 
       {roles.length === 0 ? (
@@ -40,21 +43,25 @@ export function RoleList({ roles, onEdit, onDelete, onAdd }: RoleListProps) {
                   <td className="px-4 py-3">{role.permissionIds.length}</td>
                   <td className="px-4 py-3 text-right">
                     <div className="flex justify-end gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => onEdit(role)}
-                      >
-                        编辑
-                      </Button>
-                      {!BUILTIN_ROLE_IDS.includes(role.id as (typeof BUILTIN_ROLE_IDS)[number]) && (
+                      <PermissionGate code="rbac:role:edit">
                         <Button
-                          variant="destructive"
+                          variant="outline"
                           size="sm"
-                          onClick={() => onDelete(role.id)}
+                          onClick={() => onEdit(role)}
                         >
-                          删除
+                          编辑
                         </Button>
+                      </PermissionGate>
+                      {!BUILTIN_ROLE_IDS.includes(role.id) && (
+                        <PermissionGate code="rbac:role:delete">
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => onDelete(role.id)}
+                          >
+                            删除
+                          </Button>
+                        </PermissionGate>
                       )}
                     </div>
                   </td>

@@ -29,12 +29,29 @@ export function Sidebar() {
           📂 分类
         </Link>
         {isAdmin && (
-          <Link
-            to={ROUTES.ADMIN_RBAC}
-            className="block rounded-lg px-3 py-2 text-sm hover:bg-gray-200"
-          >
-            🔒 权限配置
-          </Link>
+          <div>
+            <div className="px-3 py-2 text-xs font-semibold uppercase text-gray-500">
+              权限配置
+            </div>
+            <Link
+              to={ROUTES.RBAC_PERMISSIONS}
+              className="block rounded-lg px-3 py-2 text-sm hover:bg-gray-200"
+            >
+              🔑 权限管理
+            </Link>
+            <Link
+              to={ROUTES.RBAC_ROLES}
+              className="block rounded-lg px-3 py-2 text-sm hover:bg-gray-200"
+            >
+              🛡️ 角色管理
+            </Link>
+            <Link
+              to={ROUTES.RBAC_USERS}
+              className="block rounded-lg px-3 py-2 text-sm hover:bg-gray-200"
+            >
+              👤 用户管理
+            </Link>
+          </div>
         )}
       </nav>
     </aside>

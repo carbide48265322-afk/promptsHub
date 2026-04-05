@@ -40,6 +40,9 @@ interface RBACState {
 
   // Utility
   resetToDefaults: () => void
+
+  // Selector
+  getUserPermissions: (roleIds: string[]) => string[]
 }
 
 function loadFromStorage(): { roles: Role[]; permissions: Permission[]; users: RBACUser[] } | null {
@@ -159,6 +162,21 @@ export const useRBACStore = create<RBACState>((set, get) => {
     resetToDefaults: () => {
       set({ roles: initialRoles, permissions: initialPermissions, users: initialUsers })
       saveToStorage(initialRoles, initialPermissions, initialUsers)
+    },
+
+    getUserPermissions: (roleIds: string[]): string[] => {
+      const { roles, permissions } = get()
+      const permissionIds = new Set<string>()
+      for (const role of roles) {
+        if (roleIds.includes(role.id)) {
+          for (const id of role.permissionIds) {
+            permissionIds.add(id)
+          }
+        }
+      }
+      return permissions
+        .filter((p) => permissionIds.has(p.id))
+        .map((p) => p.code)
     },
   }
 })

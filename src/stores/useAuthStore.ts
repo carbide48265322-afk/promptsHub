@@ -53,6 +53,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   },
 
   login: (username: string, _password: string) => {
+    void _password // Mark as used to satisfy linter
     const role: Role = username.toLowerCase().includes('admin') ? Role.Admin : Role.User
     const roleIds: string[] = role === Role.Admin ? ['role-admin'] : ['role-user']
     const user: User = {
