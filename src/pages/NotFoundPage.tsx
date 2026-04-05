@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { ROUTES } from '@/constants/routes'
 
 export function NotFoundPage() {
   return (
@@ -6,7 +7,7 @@ export function NotFoundPage() {
       <h2 className="text-4xl font-bold mb-4">404</h2>
       <p className="text-gray-600 mb-6">页面未找到</p>
       <Link
-        to="/"
+        to={ROUTES.HOME}
         className="rounded-lg bg-gray-900 px-4 py-2 text-white hover:bg-gray-700"
       >
         返回首页
